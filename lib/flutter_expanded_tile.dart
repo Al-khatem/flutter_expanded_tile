@@ -1,5 +1,3 @@
-library flutter_expanded_tile;
-
 export './src/controller.dart';
 //
 export './src/models/theme_data.dart';

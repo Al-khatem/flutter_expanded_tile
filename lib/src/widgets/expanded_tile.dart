@@ -154,7 +154,8 @@ class ExpandedTile extends StatefulWidget {
       theme: theme ?? this.theme,
       disableAnimation: disableAnimation ?? this.disableAnimation,
       expansionDuration: expansionDuration ?? this.expansionDuration,
-      expansionAnimationCurve: expansionAnimationCurve ?? this.expansionAnimationCurve,
+      expansionAnimationCurve:
+          expansionAnimationCurve ?? this.expansionAnimationCurve,
       onTap: onTap ?? this.onTap,
       onLongTap: onLongTap ?? this.onLongTap,
     );
@@ -165,7 +166,8 @@ class ExpandedTile extends StatefulWidget {
   State<ExpandedTile> createState() => _ExpandedTileState();
 }
 
-class _ExpandedTileState extends State<ExpandedTile> with SingleTickerProviderStateMixin {
+class _ExpandedTileState extends State<ExpandedTile>
+    with SingleTickerProviderStateMixin {
   //
   //SECTION - State Variables
   //s1 --State
@@ -235,7 +237,9 @@ class _ExpandedTileState extends State<ExpandedTile> with SingleTickerProviderSt
     //SECTION - Build Return
     return Material(
       color: Colors.transparent,
-      shape: _isExpanded && widget.theme?.fullExpandedBorder != null ? widget.theme?.fullExpandedBorder : null,
+      shape: _isExpanded && widget.theme?.fullExpandedBorder != null
+          ? widget.theme?.fullExpandedBorder
+          : null,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -243,26 +247,36 @@ class _ExpandedTileState extends State<ExpandedTile> with SingleTickerProviderSt
           //S1  -- Header
           Material(
             color: widget.theme!.headerColor,
-            shape: _isExpanded && widget.theme?.fullExpandedBorder != null ? null : widget.theme?.headerBorder,
-            borderRadius: _isExpanded && widget.theme?.fullExpandedBorder != null
-                ? BorderRadius.vertical(
-                    bottom: Radius.zero,
-                    top: Radius.circular(widget.theme?.fullExpandedBorder?.borderRadius.topLeft.x ?? 0),
-                  )
-                : null,
+            shape: _isExpanded && widget.theme?.fullExpandedBorder != null
+                ? null
+                : widget.theme?.headerBorder,
+            borderRadius:
+                _isExpanded && widget.theme?.fullExpandedBorder != null
+                    ? BorderRadius.vertical(
+                        bottom: Radius.zero,
+                        top: Radius.circular(widget.theme?.fullExpandedBorder
+                                ?.borderRadius.topLeft.x ??
+                            0),
+                      )
+                    : null,
             child: InkWell(
-              borderRadius: _isExpanded && widget.theme?.fullExpandedBorder != null
-                  ? BorderRadius.vertical(
-                      bottom: Radius.zero,
-                      top: Radius.circular(widget.theme?.fullExpandedBorder?.borderRadius.topLeft.x ?? 0),
-                    )
-                  : widget.theme?.headerBorder?.borderRadius ?? BorderRadius.circular(6),
+              borderRadius:
+                  _isExpanded && widget.theme?.fullExpandedBorder != null
+                      ? BorderRadius.vertical(
+                          bottom: Radius.zero,
+                          top: Radius.circular(widget.theme?.fullExpandedBorder
+                                  ?.borderRadius.topLeft.x ??
+                              0),
+                        )
+                      : widget.theme?.headerBorder?.borderRadius ??
+                          BorderRadius.circular(6),
               splashColor: widget.theme!.headerSplashColor,
-              onTap: _onTapped,
-              onLongPress: _onTapHold,
+              onTap: widget.enabled ? _onTapped : null,
+              onLongPress: widget.enabled ? _onTapHold : null,
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: widget.theme?.headerBorder?.borderRadius ?? BorderRadius.circular(6),
+                  borderRadius: widget.theme?.headerBorder?.borderRadius ??
+                      BorderRadius.circular(6),
                 ),
                 padding: widget.theme!.headerPadding,
                 child: Row(
@@ -313,11 +327,21 @@ class _ExpandedTileState extends State<ExpandedTile> with SingleTickerProviderSt
                       ? null
                       : Material(
                           color: widget.theme!.contentBackgroundColor,
-                          shape: _isExpanded && widget.theme?.fullExpandedBorder != null ? null : widget.theme?.contentBorder,
-                          borderRadius: _isExpanded && widget.theme?.fullExpandedBorder != null
+                          shape: _isExpanded &&
+                                  widget.theme?.fullExpandedBorder != null
+                              ? null
+                              : widget.theme?.contentBorder,
+                          borderRadius: _isExpanded &&
+                                  widget.theme?.fullExpandedBorder != null
                               ? BorderRadius.vertical(
                                   top: Radius.zero,
-                                  bottom: Radius.circular(widget.theme?.fullExpandedBorder?.borderRadius.bottomLeft.x ?? 0),
+                                  bottom: Radius.circular(widget
+                                          .theme
+                                          ?.fullExpandedBorder
+                                          ?.borderRadius
+                                          .bottomLeft
+                                          .x ??
+                                      0),
                                 )
                               : null,
                           child: Column(
@@ -340,11 +364,22 @@ class _ExpandedTileState extends State<ExpandedTile> with SingleTickerProviderSt
                         ? null
                         : Material(
                             color: widget.theme!.contentBackgroundColor,
-                            shape: _isExpanded && widget.theme?.fullExpandedBorder != null ? null : widget.theme?.contentBorder,
-                            borderRadius: _isExpanded && widget.theme?.fullExpandedBorder != null && widget.footer == null
+                            shape: _isExpanded &&
+                                    widget.theme?.fullExpandedBorder != null
+                                ? null
+                                : widget.theme?.contentBorder,
+                            borderRadius: _isExpanded &&
+                                    widget.theme?.fullExpandedBorder != null &&
+                                    widget.footer == null
                                 ? BorderRadius.vertical(
                                     top: Radius.zero,
-                                    bottom: Radius.circular(widget.theme?.fullExpandedBorder?.borderRadius.bottomLeft.x ?? 0),
+                                    bottom: Radius.circular(widget
+                                            .theme
+                                            ?.fullExpandedBorder
+                                            ?.borderRadius
+                                            .bottomLeft
+                                            .x ??
+                                        0),
                                   )
                                 : null,
                             child: Column(
@@ -372,13 +407,22 @@ class _ExpandedTileState extends State<ExpandedTile> with SingleTickerProviderSt
           if (widget.footer != null)
             Material(
               color: widget.theme!.footerBackgroundColor,
-              shape: _isExpanded && widget.theme?.fullExpandedBorder != null ? null : widget.theme?.footerBorder,
-              borderRadius: _isExpanded && widget.theme?.fullExpandedBorder != null
-                  ? BorderRadius.vertical(
-                      top: Radius.zero,
-                      bottom: Radius.circular(widget.theme?.fullExpandedBorder?.borderRadius.bottomLeft.x ?? 0),
-                    )
-                  : null,
+              shape: _isExpanded && widget.theme?.fullExpandedBorder != null
+                  ? null
+                  : widget.theme?.footerBorder,
+              borderRadius:
+                  _isExpanded && widget.theme?.fullExpandedBorder != null
+                      ? BorderRadius.vertical(
+                          top: Radius.zero,
+                          bottom: Radius.circular(widget
+                                  .theme
+                                  ?.fullExpandedBorder
+                                  ?.borderRadius
+                                  .bottomLeft
+                                  .x ??
+                              0),
+                        )
+                      : null,
               child: Container(
                 padding: widget.theme!.footerPadding,
                 width: double.infinity,
