@@ -82,6 +82,7 @@ class ExpandedTile extends StatefulWidget {
 
   final double? width;
   // final double? height;
+  final MainAxisAlignment? mainAxisAlignment;
 
   /// [ExpandedTileController] of the tile.
   final ExpandedTileController controller;
@@ -121,6 +122,7 @@ class ExpandedTile extends StatefulWidget {
     this.onTap,
     this.onLongTap,
     this.width,
+    this.mainAxisAlignment,
     // this.height,
   });
 
@@ -146,6 +148,7 @@ class ExpandedTile extends StatefulWidget {
     final Duration? expansionDuration,
     final VoidCallback? onTap,
     final VoidCallback? onLongTap,
+    final MainAxisAlignment? mainAxisAlignment,
   }) {
     return ExpandedTile(
       key: key,
@@ -157,6 +160,7 @@ class ExpandedTile extends StatefulWidget {
       contentseparator: contentseparator ?? this.contentseparator,
       width: width ?? this.width,
       // height: height ?? this.height,
+      mainAxisAlignment: mainAxisAlignment ?? this.mainAxisAlignment,
       footer: footer ?? this.footer,
       enabled: enabled ?? this.enabled,
       controller: controller ?? this.controller,
@@ -252,7 +256,7 @@ class _ExpandedTileState extends State<ExpandedTile>
               : null,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: widget.mainAxisAlignment ?? MainAxisAlignment.center,
         children: <Widget>[
           //S1  -- Header
           Material(
