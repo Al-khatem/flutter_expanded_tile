@@ -52,7 +52,7 @@ class ExpandedTile extends StatefulWidget {
   final Widget? leading;
 
   /// Title Widget for the header.
-  final Widget title;
+  final Widget? title;
 
   /// Trailing widget of the tile header, default is a chevron arrow icon.
   final Widget? trailing;
@@ -63,7 +63,7 @@ class ExpandedTile extends StatefulWidget {
   final double? trailingRotation;
 
   /// Content of the tile when expanded.
-  final Widget content;
+  final Widget? content;
 
   /// Height of the separator between the header and the content. default is 6.
   final double? contentseparator;
@@ -106,10 +106,10 @@ class ExpandedTile extends StatefulWidget {
   const ExpandedTile({
     super.key,
     this.leading,
-    required this.title,
+    this.title,
     this.trailing = const Icon(Icons.chevron_right),
     this.trailingRotation = 90,
-    required this.content,
+    this.content,
     this.contentseparator = 6.0,
     required this.controller,
     this.footer,
