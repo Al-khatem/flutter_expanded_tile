@@ -347,7 +347,9 @@ class _ExpandedTileState extends State<ExpandedTile>
           //============================//
           //S1  -- Content
           widget.disableAnimation!
-              ? Container(
+              ? SizedBox(
+                width: widget.width,
+                height: widget.height,
                 child:
                     !_isExpanded
                         ? null
@@ -389,7 +391,9 @@ class _ExpandedTileState extends State<ExpandedTile>
                 duration: widget.expansionDuration!,
                 curve: widget.expansionAnimationCurve!,
                 reverseDuration: widget.expansionDuration!,
-                child: Container(
+                child: SizedBox(
+                  width: widget.width,
+                  height: widget.height,
                   child:
                       !_isExpanded
                           ? null
