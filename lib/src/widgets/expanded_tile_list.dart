@@ -216,7 +216,7 @@ class _ExpandedTileListState extends State<ExpandedTileList> {
           reverse: widget.reverse,
           physics: widget.physics,
           padding: widget.padding,
-          //
+          scrollDirection: widget.scrollDirection,
           itemBuilder: (context, index) {
             return widget
                 .itemBuilder(context, index, tileControllers[index])

@@ -80,6 +80,9 @@ class ExpandedTile extends StatefulWidget {
   /// Theme data for the tile.
   final ExpandedTileThemeData? theme;
 
+  final double? width;
+  final double? height;
+
   /// [ExpandedTileController] of the tile.
   final ExpandedTileController controller;
 
@@ -117,6 +120,8 @@ class ExpandedTile extends StatefulWidget {
     this.expansionAnimationCurve = Curves.ease,
     this.onTap,
     this.onLongTap,
+    this.width,
+    this.height,
   });
 
   //SECTION - Extra Functionalities
@@ -235,153 +240,137 @@ class _ExpandedTileState extends State<ExpandedTile>
   @override
   Widget build(BuildContext context) {
     //SECTION - Build Return
-    return Material(
-      color: Colors.transparent,
-      shape: _isExpanded && widget.theme?.fullExpandedBorder != null
-          ? widget.theme?.fullExpandedBorder
-          : null,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          //S1  -- Header
-          Material(
-            color: widget.theme!.headerColor,
-            shape: _isExpanded && widget.theme?.fullExpandedBorder != null
-                ? null
-                : widget.theme?.headerBorder,
-            borderRadius:
-                _isExpanded && widget.theme?.fullExpandedBorder != null
-                    ? BorderRadius.vertical(
-                        bottom: Radius.zero,
-                        top: Radius.circular(widget.theme?.fullExpandedBorder
-                                ?.borderRadius.topLeft.x ??
-                            0),
-                      )
-                    : null,
-            child: InkWell(
+    return SizedBox(
+      width: widget.width,
+      height: widget.height,
+      child: Material(
+        color: Colors.transparent,
+        shape:
+            _isExpanded && widget.theme?.fullExpandedBorder != null
+                ? widget.theme?.fullExpandedBorder
+                : null,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            //S1  -- Header
+            Material(
+              color: widget.theme!.headerColor,
+              shape:
+                  _isExpanded && widget.theme?.fullExpandedBorder != null
+                      ? null
+                      : widget.theme?.headerBorder,
               borderRadius:
                   _isExpanded && widget.theme?.fullExpandedBorder != null
                       ? BorderRadius.vertical(
+                        bottom: Radius.zero,
+                        top: Radius.circular(
+                          widget
+                                  .theme
+                                  ?.fullExpandedBorder
+                                  ?.borderRadius
+                                  .topLeft
+                                  .x ??
+                              0,
+                        ),
+                      )
+                      : null,
+              child: InkWell(
+                borderRadius:
+                    _isExpanded && widget.theme?.fullExpandedBorder != null
+                        ? BorderRadius.vertical(
                           bottom: Radius.zero,
-                          top: Radius.circular(widget.theme?.fullExpandedBorder
-                                  ?.borderRadius.topLeft.x ??
-                              0),
+                          top: Radius.circular(
+                            widget
+                                    .theme
+                                    ?.fullExpandedBorder
+                                    ?.borderRadius
+                                    .topLeft
+                                    .x ??
+                                0,
+                          ),
                         )
-                      : widget.theme?.headerBorder?.borderRadius ??
-                          BorderRadius.circular(6),
-              splashColor: widget.theme!.headerSplashColor,
-              onTap: widget.enabled ? _onTapped : null,
-              onLongPress: widget.enabled ? _onTapHold : null,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: widget.theme?.headerBorder?.borderRadius ??
-                      BorderRadius.circular(6),
-                ),
-                padding: widget.theme!.headerPadding,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    widget.leading != null
-                        ? Padding(
+                        : widget.theme?.headerBorder?.borderRadius ??
+                            BorderRadius.circular(6),
+                splashColor: widget.theme!.headerSplashColor,
+                onTap: widget.enabled ? _onTapped : null,
+                onLongPress: widget.enabled ? _onTapHold : null,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius:
+                        widget.theme?.headerBorder?.borderRadius ??
+                        BorderRadius.circular(6),
+                  ),
+                  padding: widget.theme!.headerPadding,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      widget.leading != null
+                          ? Padding(
                             padding: widget.theme!.leadingPadding!,
                             child: widget.leading,
                           )
-                        : Container(),
-                    Expanded(
-                      child: Container(
-                        padding: widget.theme!.titlePadding,
-                        child: widget.title,
+                          : Container(),
+                      Expanded(
+                        child: Container(
+                          padding: widget.theme!.titlePadding,
+                          child: widget.title,
+                        ),
                       ),
-                    ),
-                    Transform.rotate(
-                      angle: widget.trailingRotation != null
-                          ? _isExpanded
-                              ? angleToRad(widget.trailingRotation!)
-                              : 0
-                          : 0,
-                      child: Padding(
-                        padding: widget.theme!.trailingPadding!,
-                        child: widget.trailing,
+                      Transform.rotate(
+                        angle:
+                            widget.trailingRotation != null
+                                ? _isExpanded
+                                    ? angleToRad(widget.trailingRotation!)
+                                    : 0
+                                : 0,
+                        child: Padding(
+                          padding: widget.theme!.trailingPadding!,
+                          child: widget.trailing,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          //============================//
-          if (_isExpanded)
-            SizedBox(
-              height: widget.contentseparator,
-              child: Container(
-                color: widget.theme?.contentSeparatorColor,
+            //============================//
+            if (_isExpanded)
+              SizedBox(
+                height: widget.contentseparator,
+                child: Container(color: widget.theme?.contentSeparatorColor),
               ),
-            ),
-          //============================//
-          //S1  -- Content
-          widget.disableAnimation!
-              ? Container(
-                  child: !_isExpanded
-                      ? null
-                      : Material(
-                          color: widget.theme!.contentBackgroundColor,
-                          shape: _isExpanded &&
-                                  widget.theme?.fullExpandedBorder != null
-                              ? null
-                              : widget.theme?.contentBorder,
-                          borderRadius: _isExpanded &&
-                                  widget.theme?.fullExpandedBorder != null
-                              ? BorderRadius.vertical(
-                                  top: Radius.zero,
-                                  bottom: Radius.circular(widget
-                                          .theme
-                                          ?.fullExpandedBorder
-                                          ?.borderRadius
-                                          .bottomLeft
-                                          .x ??
-                                      0),
-                                )
-                              : null,
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: widget.theme!.contentPadding,
-                                width: double.infinity,
-                                child: widget.content,
-                              ),
-                            ],
-                          ),
-                        ),
-                )
-              : AnimatedSize(
-                  duration: widget.expansionDuration!,
-                  curve: widget.expansionAnimationCurve!,
-                  reverseDuration: widget.expansionDuration!,
-                  child: Container(
-                    child: !_isExpanded
-                        ? null
-                        : Material(
+            //============================//
+            //S1  -- Content
+            widget.disableAnimation!
+                ? Container(
+                  child:
+                      !_isExpanded
+                          ? null
+                          : Material(
                             color: widget.theme!.contentBackgroundColor,
-                            shape: _isExpanded &&
-                                    widget.theme?.fullExpandedBorder != null
-                                ? null
-                                : widget.theme?.contentBorder,
-                            borderRadius: _isExpanded &&
-                                    widget.theme?.fullExpandedBorder != null &&
-                                    widget.footer == null
-                                ? BorderRadius.vertical(
-                                    top: Radius.zero,
-                                    bottom: Radius.circular(widget
-                                            .theme
-                                            ?.fullExpandedBorder
-                                            ?.borderRadius
-                                            .bottomLeft
-                                            .x ??
-                                        0),
-                                  )
-                                : null,
+                            shape:
+                                _isExpanded &&
+                                        widget.theme?.fullExpandedBorder != null
+                                    ? null
+                                    : widget.theme?.contentBorder,
+                            borderRadius:
+                                _isExpanded &&
+                                        widget.theme?.fullExpandedBorder != null
+                                    ? BorderRadius.vertical(
+                                      top: Radius.zero,
+                                      bottom: Radius.circular(
+                                        widget
+                                                .theme
+                                                ?.fullExpandedBorder
+                                                ?.borderRadius
+                                                .bottomLeft
+                                                .x ??
+                                            0,
+                                      ),
+                                    )
+                                    : null,
                             child: Column(
                               children: [
                                 Container(
@@ -392,44 +381,91 @@ class _ExpandedTileState extends State<ExpandedTile>
                               ],
                             ),
                           ),
+                )
+                : AnimatedSize(
+                  duration: widget.expansionDuration!,
+                  curve: widget.expansionAnimationCurve!,
+                  reverseDuration: widget.expansionDuration!,
+                  child: Container(
+                    child:
+                        !_isExpanded
+                            ? null
+                            : Material(
+                              color: widget.theme!.contentBackgroundColor,
+                              shape:
+                                  _isExpanded &&
+                                          widget.theme?.fullExpandedBorder !=
+                                              null
+                                      ? null
+                                      : widget.theme?.contentBorder,
+                              borderRadius:
+                                  _isExpanded &&
+                                          widget.theme?.fullExpandedBorder !=
+                                              null &&
+                                          widget.footer == null
+                                      ? BorderRadius.vertical(
+                                        top: Radius.zero,
+                                        bottom: Radius.circular(
+                                          widget
+                                                  .theme
+                                                  ?.fullExpandedBorder
+                                                  ?.borderRadius
+                                                  .bottomLeft
+                                                  .x ??
+                                              0,
+                                        ),
+                                      )
+                                      : null,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: widget.theme!.contentPadding,
+                                    width: double.infinity,
+                                    child: widget.content,
+                                  ),
+                                ],
+                              ),
+                            ),
                   ),
                 ),
-          //============================//
-          if (widget.footer != null)
-            SizedBox(
-              height: widget.footerSeparator,
-              child: Container(
-                color: widget.theme?.footerSeparatorColor,
+            //============================//
+            if (widget.footer != null)
+              SizedBox(
+                height: widget.footerSeparator,
+                child: Container(color: widget.theme?.footerSeparatorColor),
               ),
-            ),
-          //============================//
-          //S1  -- Footer
-          if (widget.footer != null)
-            Material(
-              color: widget.theme!.footerBackgroundColor,
-              shape: _isExpanded && widget.theme?.fullExpandedBorder != null
-                  ? null
-                  : widget.theme?.footerBorder,
-              borderRadius:
-                  _isExpanded && widget.theme?.fullExpandedBorder != null
-                      ? BorderRadius.vertical(
+            //============================//
+            //S1  -- Footer
+            if (widget.footer != null)
+              Material(
+                color: widget.theme!.footerBackgroundColor,
+                shape:
+                    _isExpanded && widget.theme?.fullExpandedBorder != null
+                        ? null
+                        : widget.theme?.footerBorder,
+                borderRadius:
+                    _isExpanded && widget.theme?.fullExpandedBorder != null
+                        ? BorderRadius.vertical(
                           top: Radius.zero,
-                          bottom: Radius.circular(widget
-                                  .theme
-                                  ?.fullExpandedBorder
-                                  ?.borderRadius
-                                  .bottomLeft
-                                  .x ??
-                              0),
+                          bottom: Radius.circular(
+                            widget
+                                    .theme
+                                    ?.fullExpandedBorder
+                                    ?.borderRadius
+                                    .bottomLeft
+                                    .x ??
+                                0,
+                          ),
                         )
-                      : null,
-              child: Container(
-                padding: widget.theme!.footerPadding,
-                width: double.infinity,
-                child: widget.footer!,
+                        : null,
+                child: Container(
+                  padding: widget.theme!.footerPadding,
+                  width: double.infinity,
+                  child: widget.footer!,
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
     //!SECTION
