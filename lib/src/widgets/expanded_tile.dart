@@ -297,6 +297,8 @@ class _ExpandedTileState extends State<ExpandedTile>
               onTap: widget.enabled ? _onTapped : null,
               onLongPress: widget.enabled ? _onTapHold : null,
               child: Container(
+                width: widget.width,
+                height: widget.height,
                 decoration: BoxDecoration(
                   borderRadius:
                       widget.theme?.headerBorder?.borderRadius ??
@@ -316,8 +318,6 @@ class _ExpandedTileState extends State<ExpandedTile>
                     Expanded(
                       child: Container(
                         padding: widget.theme!.titlePadding,
-                        width: widget.width,
-                        height: widget.height,
                         child: widget.title,
                       ),
                     ),
