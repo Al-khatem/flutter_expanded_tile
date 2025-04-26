@@ -20,7 +20,12 @@ import 'expanded_tile.dart';
 //SECTION - Exports
 //!SECTION - Exports
 //
-typedef ExpandedTileBuilder = ExpandedTile Function(BuildContext context, int index, ExpandedTileController controller);
+typedef ExpandedTileBuilder =
+    ExpandedTile Function(
+      BuildContext context,
+      int index,
+      ExpandedTileController controller,
+    );
 
 /// An extension of the listview returning a list of [ExpandedTile] widgets which are
 /// Expansion tile similar to the list tile supports leading widget,
@@ -68,6 +73,7 @@ class ExpandedTileList extends StatefulWidget {
   final List<int> initiallyOpenedControllersIndexes;
   //
   final EdgeInsetsGeometry? padding;
+  final Axis scrollDirection;
   final ScrollController? scrollController;
   final ScrollPhysics? physics;
   final bool shrinkWrap;
@@ -87,10 +93,11 @@ class ExpandedTileList extends StatefulWidget {
     this.shrinkWrap = true,
     this.reverse = false,
     this.restorationId,
-  })  : assert(itemCount != 0, 'Item Count cannot be 0!'),
-        assert(maxOpened != 0, 'Max Opened cannot be 0!'),
-        _constructor = TileListConstructor.builder,
-        separatorBuilder = null;
+    this.scrollDirection = Axis.vertical,
+  }) : assert(itemCount != 0, 'Item Count cannot be 0!'),
+       assert(maxOpened != 0, 'Max Opened cannot be 0!'),
+       _constructor = TileListConstructor.builder,
+       separatorBuilder = null;
 
   const ExpandedTileList.separated({
     super.key,
@@ -105,10 +112,14 @@ class ExpandedTileList extends StatefulWidget {
     this.shrinkWrap = true,
     this.reverse = false,
     this.restorationId,
-  })  : assert(itemCount != 0, 'Item Count cannot be 0!'),
-        assert(maxOpened != 0, 'Max Opened cannot be 0!'),
-        assert(initiallyOpenedControllersIndexes.length <= maxOpened, "Initially opened controllers can't exceed max number of opened tiles!"),
-        _constructor = TileListConstructor.separated;
+    this.scrollDirection = Axis.vertical,
+  }) : assert(itemCount != 0, 'Item Count cannot be 0!'),
+       assert(maxOpened != 0, 'Max Opened cannot be 0!'),
+       assert(
+         initiallyOpenedControllersIndexes.length <= maxOpened,
+         "Initially opened controllers can't exceed max number of opened tiles!",
+       ),
+       _constructor = TileListConstructor.separated;
 
   @override
   State<ExpandedTileList> createState() => _ExpandedTileListState();
@@ -142,9 +153,15 @@ class _ExpandedTileListState extends State<ExpandedTileList> {
     scrollController = widget.scrollController ?? ScrollController();
     tileControllers = List.generate(
       widget.itemCount,
-      (index) => ExpandedTileController(key: Key(index.toString()), isExpanded: widget.initiallyOpenedControllersIndexes.contains(index)),
+      (index) => ExpandedTileController(
+        key: Key(index.toString()),
+        isExpanded: widget.initiallyOpenedControllersIndexes.contains(index),
+      ),
     );
-    openTileControllers = widget.initiallyOpenedControllersIndexes.map((ind) => tileControllers[ind]).toList();
+    openTileControllers =
+        widget.initiallyOpenedControllersIndexes
+            .map((ind) => tileControllers[ind])
+            .toList();
     //s1 --Controllers & Listeners
     //
     //s1 --Late & Async Initializers
@@ -171,7 +188,8 @@ class _ExpandedTileListState extends State<ExpandedTileList> {
       } else {
         openTileControllers.remove(tileControllers[index]);
       }
-      if (widget.itemBuilder(context, index, tileControllers[index]).onTap != null) {
+      if (widget.itemBuilder(context, index, tileControllers[index]).onTap !=
+          null) {
         widget.itemBuilder(context, index, tileControllers[index]).onTap!();
       }
     }
@@ -192,52 +210,42 @@ class _ExpandedTileListState extends State<ExpandedTileList> {
     //SECTION - Build Return
     return widget._constructor == TileListConstructor.builder
         ? ListView.builder(
-            shrinkWrap: widget.shrinkWrap,
-            controller: scrollController,
-            itemCount: widget.itemCount,
-            reverse: widget.reverse,
-            physics: widget.physics,
-            padding: widget.padding,
-            //
-            itemBuilder: (context, index) {
-              return widget
-                  .itemBuilder(
-                    context,
-                    index,
-                    tileControllers[index],
-                  )
-                  .copyWith(
-                    controller: tileControllers[index],
-                    onTap: () => _onTap(index, tileControllers[index]),
-                  );
-            },
-          )
+          shrinkWrap: widget.shrinkWrap,
+          controller: scrollController,
+          itemCount: widget.itemCount,
+          reverse: widget.reverse,
+          physics: widget.physics,
+          padding: widget.padding,
+          //
+          itemBuilder: (context, index) {
+            return widget
+                .itemBuilder(context, index, tileControllers[index])
+                .copyWith(
+                  controller: tileControllers[index],
+                  onTap: () => _onTap(index, tileControllers[index]),
+                );
+          },
+        )
         : ListView.separated(
-            shrinkWrap: widget.shrinkWrap,
-            controller: scrollController,
-            itemCount: widget.itemCount,
-            reverse: widget.reverse,
-            physics: widget.physics,
-            padding: widget.padding,
-            separatorBuilder: (context, index) {
-              return widget.separatorBuilder!(
-                context,
-                index,
-              );
-            },
-            itemBuilder: (context, index) {
-              return widget
-                  .itemBuilder(
-                    context,
-                    index,
-                    tileControllers[index],
-                  )
-                  .copyWith(
-                    controller: tileControllers[index],
-                    onTap: () => _onTap(index, tileControllers[index]),
-                  );
-            },
-          );
+          shrinkWrap: widget.shrinkWrap,
+          controller: scrollController,
+          itemCount: widget.itemCount,
+          reverse: widget.reverse,
+          physics: widget.physics,
+          padding: widget.padding,
+          scrollDirection: widget.scrollDirection,
+          separatorBuilder: (context, index) {
+            return widget.separatorBuilder!(context, index);
+          },
+          itemBuilder: (context, index) {
+            return widget
+                .itemBuilder(context, index, tileControllers[index])
+                .copyWith(
+                  controller: tileControllers[index],
+                  onTap: () => _onTap(index, tileControllers[index]),
+                );
+          },
+        );
     //!SECTION
   }
 }
