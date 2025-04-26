@@ -81,7 +81,7 @@ class ExpandedTile extends StatefulWidget {
   final ExpandedTileThemeData? theme;
 
   final double? width;
-  final double? height;
+  // final double? height;
 
   /// [ExpandedTileController] of the tile.
   final ExpandedTileController controller;
@@ -121,7 +121,7 @@ class ExpandedTile extends StatefulWidget {
     this.onTap,
     this.onLongTap,
     this.width,
-    this.height,
+    // this.height,
   });
 
   //SECTION - Extra Functionalities
@@ -156,7 +156,7 @@ class ExpandedTile extends StatefulWidget {
       content: content ?? this.content,
       contentseparator: contentseparator ?? this.contentseparator,
       width: width ?? this.width,
-      height: height ?? this.height,
+      // height: height ?? this.height,
       footer: footer ?? this.footer,
       enabled: enabled ?? this.enabled,
       controller: controller ?? this.controller,
@@ -298,7 +298,7 @@ class _ExpandedTileState extends State<ExpandedTile>
               onLongPress: widget.enabled ? _onTapHold : null,
               child: Container(
                 width: widget.width,
-                height: widget.height,
+                // height: widget.height,
                 decoration: BoxDecoration(
                   borderRadius:
                       widget.theme?.headerBorder?.borderRadius ??
@@ -349,7 +349,7 @@ class _ExpandedTileState extends State<ExpandedTile>
           widget.disableAnimation!
               ? SizedBox(
                 width: widget.width,
-                height: widget.height,
+                // height: widget.height,
                 child:
                     !_isExpanded
                         ? null
@@ -393,7 +393,7 @@ class _ExpandedTileState extends State<ExpandedTile>
                 reverseDuration: widget.expansionDuration!,
                 child: SizedBox(
                   width: widget.width,
-                  height: widget.height,
+                  // height: widget.height,
                   child:
                       !_isExpanded
                           ? null
