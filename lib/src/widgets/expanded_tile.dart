@@ -81,7 +81,7 @@ class ExpandedTile extends StatefulWidget {
   final ExpandedTileThemeData? theme;
 
   final double? width;
-  // final double? height;
+  final double? height;
   final MainAxisAlignment? mainAxisAlignment;
 
   /// [ExpandedTileController] of the tile.
@@ -123,7 +123,7 @@ class ExpandedTile extends StatefulWidget {
     this.onLongTap,
     this.width,
     this.mainAxisAlignment,
-    // this.height,
+    this.height,
   });
 
   //SECTION - Extra Functionalities
@@ -159,7 +159,7 @@ class ExpandedTile extends StatefulWidget {
       content: content ?? this.content,
       contentseparator: contentseparator ?? this.contentseparator,
       width: width ?? this.width,
-      // height: height ?? this.height,
+      height: height ?? this.height,
       mainAxisAlignment: mainAxisAlignment ?? this.mainAxisAlignment,
       footer: footer ?? this.footer,
       enabled: enabled ?? this.enabled,
@@ -353,7 +353,7 @@ class _ExpandedTileState extends State<ExpandedTile>
           widget.disableAnimation!
               ? SizedBox(
                 width: widget.width,
-                // height: widget.height,
+                height: widget.height,
                 child:
                     !_isExpanded
                         ? null
@@ -399,7 +399,7 @@ class _ExpandedTileState extends State<ExpandedTile>
                 reverseDuration: widget.expansionDuration!,
                 child: SizedBox(
                   width: widget.width,
-                  // height: widget.height,
+                  height: widget.height,
                   child:
                       !_isExpanded
                           ? null
@@ -430,12 +430,10 @@ class _ExpandedTileState extends State<ExpandedTile>
                                     : null,
                             child: Column(
                               children: [
-                                Expanded(
-                                  child: Container(
-                                    padding: widget.theme!.contentPadding,
-                                    width: double.infinity,
-                                    child: widget.content,
-                                  ),
+                                Container(
+                                  padding: widget.theme!.contentPadding,
+                                  width: double.infinity,
+                                  child: widget.content,
                                 ),
                               ],
                             ),
