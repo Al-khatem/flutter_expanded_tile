@@ -382,10 +382,12 @@ class _ExpandedTileState extends State<ExpandedTile>
                                   : null,
                           child: Column(
                             children: [
-                              Container(
-                                padding: widget.theme!.contentPadding,
-                                width: double.infinity,
-                                child: widget.content,
+                              Expanded(
+                                child: Container(
+                                  padding: widget.theme!.contentPadding,
+                                  width: double.infinity,
+                                  child: widget.content,
+                                ),
                               ),
                             ],
                           ),
@@ -428,10 +430,12 @@ class _ExpandedTileState extends State<ExpandedTile>
                                     : null,
                             child: Column(
                               children: [
-                                Container(
-                                  padding: widget.theme!.contentPadding,
-                                  width: double.infinity,
-                                  child: widget.content,
+                                Expanded(
+                                  child: Container(
+                                    padding: widget.theme!.contentPadding,
+                                    width: double.infinity,
+                                    child: widget.content,
+                                  ),
                                 ),
                               ],
                             ),
